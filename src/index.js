@@ -20,7 +20,6 @@ function checkTarget() {
     if (!unchecked_targets.length) return socket.emit('get_target', TARGETS_TO_PULL);
 
     let current_target = unchecked_targets.pop();
-    console.log(current_target);
     PortScanUtils.runPortScan(current_target, socket);
 }
 

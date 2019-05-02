@@ -14,10 +14,8 @@ class PortScanUtils {
                 closed: [],
                 protocol_info: []
             }
-            //let initial_ports = [ 21, 22, 80 ];
-            //let extended_ports = [ 20, 23, 25, 43, 53, 67, 68, 79, 110, 123, 201, 389, 514, 554, 546, 547, 587, 691, 3306, 3690, 5900, 8080 ];
-            let initial_ports = [ 22, 80 ]; 
-            let extended_ports = [];
+            let initial_ports = [ 21, 22, 80 ];
+            let extended_ports = [ 20, 23, 25, 43, 53, 67, 68, 79, 110, 123, 201, 389, 514, 554, 546, 547, 587, 691, 3306, 3690, 5900, 8080 ];
 
             for (let i = 0; i < initial_ports.length; i++) {
                 results = await this.checkPort(target.ip, initial_ports[i], results);
@@ -34,6 +32,8 @@ class PortScanUtils {
             for (let i = 0; i < results.open.length; i++) {
                 results = await ProtocolFactory.fuzzProtocol(results, results.open[i]);
             }
+
+            results.last_update = Math.floor(new Date() / 1000);
 
             LogUtils.logInfo('Found the following ports open ' + results.open.join(',') + ' on ' + target.ip);
             socket.emit('live_target_found', results);
